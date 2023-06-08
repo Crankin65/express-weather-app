@@ -31,8 +31,8 @@ async function weatherCheck(latitude,longitude){
         })
         .then(async function(format) {
           console.log('second function then')
-            console.log(format)
-            return JSON.stringify(format)
+            // console.log(format)
+            return format
            // let weatherHash = {
            //      // today: format.daily.time[0],
            //      temperature_min: await format.daily.temperature_2m_min[0],
@@ -46,6 +46,26 @@ async function weatherCheck(latitude,longitude){
         .catch(function(response) {
             console.log(response)
         })
+}
+
+async function weatherCheckOpenMeteo(latitude,longitude){
+  let date = new Date().toISOString().substring(0,10);
+
+  const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max&daily=temperature_2m_min&daily=precipitation_sum&daily=rain_sum&daily=windspeed_10m_max&temperature_unit=fahrenheit&windspeed_unit=kmh&precipitation_unit=mm&timeformat=iso8601&past_days=0&forecast_days=7&start_date=${date}&end_date=${date}&timezone=GMT` , {mode: 'cors'})
+  let formattedData = await response.json();
+
+  return await formattedData;
+
+  // let weatherHash =  a{
+  //          // today: format.daily.time[0],
+  //          temperature_min: await format.daily.temperature_2m_min[0],
+  //          temperature_max: await format.daily.temperature_2m_max[0],
+  //          precipitation_sum: await format.daily.rain_sum[0],
+  //          wind_speed: await format.daily.windspeed_10m_max[0]
+  //      }
+  //
+  //      return weatherHash;
+
 }
 
 
@@ -108,4 +128,6 @@ async function getCoordinates() {
 
 
 //https://api.open-meteo.com/v1/forecast?latitude=29.76328&longitude=-95.36327&daily=temperature_2m_max&daily=temperature_2m_min&daily=precipitation_sum&daily=rain_sum&daily=windspeed_10m_max&temperature_unit=fahrenheit&windspeed_unit=kmh&precipitation_unit=mm&timeformat=iso8601&past_days=0&forecast_days=7&start_date=2023-06-08&end_date=2023-06-08&timezone=GMT
-module.exports = weatherCheck
+module.exports = {
+  weatherCheck2: weatherCheckOpenMeteo
+}
