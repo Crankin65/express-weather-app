@@ -1,3 +1,5 @@
+module.exports = weatherCheck()
+
 async function geoCheck(city) {
   const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1&language=en&format=json`, {mode: 'cors'})
   const cityDetails = await response.json();
@@ -15,26 +17,37 @@ function createGeoHash(data) {
 
 async function weatherCheck(latitude,longitude){
     let date = new Date().toISOString().substring(0,10);
-
+    let  url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max&daily=temperature_2m_min&daily=precipitation_sum&daily=rain_sum&daily=windspeed_10m_max&temperature_unit=fahrenheit&windspeed_unit=kmh&precipitation_unit=mm&timeformat=iso8601&past_days=0&forecast_days=7&start_date=${date}&end_date=${date}&timezone=GMT`
+  console.log(`the latitude is ${latitude}`)
+    console.log(`the url is ${url}`)
+  
     fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max&daily=temperature_2m_min&daily=precipitation_sum&daily=rain_sum&daily=windspeed_10m_max&temperature_unit=fahrenheit&windspeed_unit=kmh&precipitation_unit=mm&timeformat=iso8601&past_days=0&forecast_days=7&start_date=${date}&end_date=${date}&timezone=GMT` , {mode: 'cors'})
-        .then(async function(response){
-            let format = await response.json();
-
-            // console.log(format)
-            let weatherHash = {
-                today: format.daily.time[0],
-                temperature_min: format.daily.temperature_2m_min[0],
-                temperature_max: format.daily.temperature_2m_max[0],
-                precipitation_sum: format.daily.rain_sum[0],
-                wind_speed: format.daily.windspeed_10m_max[0]
-            }
-            return weatherHash;
-
+        .then(async function(response) {
+          console.log('first then')
+          let formattedData = await response.json();
+          // console.log('successful to server')
+          // console.log(`${format} function works`) ;
+          return formattedData
         })
+        .then(async function(format) {
+          console.log('second then')
+            console.log(format)
+            // console.log(format)
+           let weatherHash = {
+                // today: format.daily.time[0],
+                temperature_min: await format.daily.temperature_2m_min[0],
+                temperature_max: await format.daily.temperature_2m_max[0],
+                precipitation_sum: await format.daily.rain_sum[0],
+                wind_speed: await format.daily.windspeed_10m_max[0]
+            }
+
+            return weatherHash;
+          })
         .catch(function(response) {
             console.log(response)
         })
 }
+
 
 async function getCoordinates() {
     let points = [];
@@ -81,3 +94,14 @@ async function getCoordinates() {
 //
 // console.log(weatherCheck(createGeoHash(demoHash).Latitude,createGeoHash(demoHash).Longitude))
 
+// const dummyObject = weatherCheck(29.76328,-95.36327)
+//   .then((result) => {
+//     console.log(result)
+//     return result
+//   }).catch(console.error.bind(console));
+
+
+// weatherCheck(29.76328,-95.36327)
+
+
+weatherCheck("29.76328",'-95.36327')
