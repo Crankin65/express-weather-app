@@ -1,38 +1,17 @@
+require("dotenv").config();
 
+async function weatherCheck(city) {
+  const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${process.env.WEATHER_API_KEY}&q=${city}&days=1&aqi=no&alerts=no`, {mode: 'cors'})
+	let weatherData = await response.json();
+	let maxTemp = await weatherData.forecast.forecastday[0].day.maxtemp_f
+	let minTemp = await weatherData.forecast.forecastday[0].day.mintemp_f
+	let avgTemp = await weatherData.forecast.forecastday[0].day.avgtemp_f
+	let condition = await weatherData.forecast.forecastday[0].day.condition.text
+	// console.log(await weatherData.forecast.forecastday[0].day)
+	// console.log(await `The high in houston today is ${maxTemp}`)
+	console.log(await `The high in ${city} is ${maxTemp}, the low is ${minTemp}, the average is 
+	${avgTemp} and the current weather is ${condition}`);
 
-// export default async function weatherCheck(city) {
-//   fetch(`http://api.weatherapi.com/v1/current.json?key=${process.env.REACT_APP_WEATHER_API_KEY}&q=${city}`, {mode: 'cors'})
-//     .then(async function(response){
-//
-//      let format = await response.json();
-//
-//     // let weatherHash = {
-//     //   Actual: format.current.temp_f,
-//     //   FeelsLike: format.current.feelslike_f,
-//     //   Weather: format.current.condition.text
-//     // }
-//     console.log(format);
-//       // return weatherHash;
-//     })
-//     .catch(function(response){
-//       console.log(response)
-//       //console.log(response)
-//     })
-// };
+}
 
-
-export default async function weatherCheck(city) {
-  fetch(`http://api.weatherapi.com/v1/current.json?key=${process.env.REACT_APP_WEATHER_API_KEY}&q=${city}`, {mode: 'cors'})
-    .then(await function(response){
-      response.json();
-    })
-    .then(await function(data) {
-      console.log(data);
-    })
-    .catch(function(response){
-      console.log(response)
-    })
-};
-
-
-weatherCheck('houston');
+weatherCheck('Houston');

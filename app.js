@@ -9,8 +9,19 @@ const usersRouter = require('./routes/users');
 const expressAsyncHandler = require("express-async-handler");
 const weatherCheck = require("./API-Calls/OpenMeteo-API");
 
+
+// if (process.env.NODE_ENV !== "production") {
+//   require("dotenv").config();
+// }
+
+require("dotenv").config();
+console.log(process.env.OPEN_WEATHER_API_KEY)
+
 const app = express();
 const cors = require('cors')
+
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

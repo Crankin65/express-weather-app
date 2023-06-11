@@ -1,5 +1,3 @@
-const {JSONCookie} = require("cookie-parser");
-
 async function geoCheck(city) {
   const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1&language=en&format=json`, {mode: 'cors'})
   const cityDetails = await response.json();
