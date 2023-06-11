@@ -127,5 +127,5 @@ async function getCoordinates() {
 
 //https://api.open-meteo.com/v1/forecast?latitude=29.76328&longitude=-95.36327&daily=temperature_2m_max&daily=temperature_2m_min&daily=precipitation_sum&daily=rain_sum&daily=windspeed_10m_max&temperature_unit=fahrenheit&windspeed_unit=kmh&precipitation_unit=mm&timeformat=iso8601&past_days=0&forecast_days=7&start_date=2023-06-08&end_date=2023-06-08&timezone=GMT
 module.exports = {
-  weatherCheck2: weatherCheckOpenMeteo
+  weatherCheckOpenMeteo: weatherCheckOpenMeteo
 }
