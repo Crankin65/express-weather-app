@@ -17,7 +17,7 @@ async function weatherAPICheck(city) {
 
 }
 
-weatherCheck('Houston');
+// weatherCheck('Houston');
 
 module.exports = {
 	weatherAPICheck: weatherAPICheck

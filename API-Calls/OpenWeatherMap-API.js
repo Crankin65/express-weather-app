@@ -22,7 +22,7 @@ async function openWeatherCheck(latitude,longitude) {
 	// console.log(await `The high is ${weatherData.maxTemp}, the low is ${weatherData.minTemp}, the average is ${weatherData.avgTemp} and the current weather is ${weatherData.condition}`)
 }
 
-weatherCheck("29.76328","-95.36327")
+// weatherCheck("29.76328","-95.36327")
 
 module.exports = {
 	OpenWeatherMapWeatherCheck: openWeatherCheck
