@@ -1,18 +1,3 @@
-async function geoCheck(city) {
-  const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1&language=en&format=json`, {mode: 'cors'})
-  const cityDetails = await response.json();
-
-  return cityDetails;
-}
-
-function createGeoHash(data) {
-  let hash =
-    { Latitude:data.results[0].latitude,
-      Longitude:data.results[0].longitude
-    }
-  return hash;
-}
-
 async function weatherCheck(latitude,longitude){
     let date = new Date().toISOString().substring(0,10);
     let  url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max&daily=temperature_2m_min&daily=precipitation_sum&daily=rain_sum&daily=windspeed_10m_max&temperature_unit=fahrenheit&windspeed_unit=kmh&precipitation_unit=mm&timeformat=iso8601&past_days=0&forecast_days=7&start_date=${date}&end_date=${date}&timezone=GMT`

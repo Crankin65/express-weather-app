@@ -2,6 +2,7 @@ const { body, validationResult } = require('express-validator')
 const { weatherCheckOpenMeteo } = require("../API-Calls/OpenMeteo-API");
 const { OpenWeatherMapWeatherCheck } = require('../API-Calls/OpenWeatherMap-API');
 const { weatherAPICheck } = require('../API-Calls/Weather-API')
+const { geoCheck, createGeoHash } = require('../API-Calls/getCoordinates')
 
 
 const asyncHandler = require('express-async-handler')
@@ -37,4 +38,12 @@ exports.weatherAPI = async (req,res) => {
 
 	await res.json({weather:weather})
 
+}
+
+exports.coordinates = async (req,res) => {
+	const city = req.params['city'];
+	const cityDetails = await geoCheck(city);
+	const coordinatesHash = await createGeoHash(cityDetails)
+
+	await res.json({coordinates:coordinatesHash})
 }

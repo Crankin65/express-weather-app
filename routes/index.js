@@ -15,6 +15,7 @@ const asyncHandler = require("express-async-handler");
 router.get('/openmeteo/:latitude/:longitude', weatherController.openMeteo);
 router.get('/openweather/:latitude/:longitude', weatherController.openWeather);
 router.get('/weatherAPI/:city', weatherController.weatherAPI);
+router.get('/get/:city', weatherController.coordinates)
 
 
 
