@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const weatherCheck = require("../API-Calls/OpenMeteo-API");
+const weatherCheck = require("../API-Calls/OpenMeteo/OpenMeteo-API");
 
 
 // Controllers

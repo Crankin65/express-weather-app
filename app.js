@@ -7,7 +7,7 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const expressAsyncHandler = require("express-async-handler");
-const weatherCheck = require("./API-Calls/OpenMeteo-API");
+const weatherCheck = require("./API-Calls/OpenMeteo/OpenMeteo-API");
 
 
 // if (process.env.NODE_ENV !== "production") {
