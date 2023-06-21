@@ -1,4 +1,4 @@
-let sampleWeatherQualityJson = {
+const sampleAirQualityJson = {
 	"latitude": 40.800003,
 	"longitude": -74,
 	"generationtime_ms": 0.6910562515258789,
@@ -4099,5 +4099,7 @@ const sampleWeatherDataJson = {
 }
 
 
-module.exports =
-	{sampleWeatherQualityJson , sampleWeatherDataJson}
+module.exports = {
+	sampleWeatherDataJson: sampleWeatherDataJson,
+	sampleAirQualityJson: sampleAirQualityJson
+}

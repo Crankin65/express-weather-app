@@ -1,4 +1,4 @@
-const sampleWeatherDataJson = require('./sampleOpenMeteoWeather')
+const {sampleAirQualityJson, sampleWeatherDataJson} = require('./sampleOpenMeteoWeather')
 const data = sampleWeatherDataJson.sampleWeatherDataJson
 
 async function weatherCheckOpenMeteo(latitude,longitude){
@@ -13,19 +13,36 @@ async function weatherCheckOpenMeteo(latitude,longitude){
 
 }
 
-function createOpenMeteoFiveDayObject(json) {
-  let openMeteoForecast = {}
+function createOpenMeteoFiveDayObject(weatherJson, airQualityJson) {
+  let openMeteoForecast = {
+    'daily':{},
+    'current':{}
+  }
 
-  for (let i = 0; i < json.hourly.time.length; i+=1 ) {
-    let timeHour = json.hourly.time[i]
-    // openMeteoForecast = {timeHour}
+  for (let i = 0; i < weatherJson.hourly.time.length; i+=1 ) {
+    let timeHour = weatherJson.hourly.time[i]
 
-    let temperature = json.hourly.temperature_2m[i]
-    let humidity = json.hourly.relativehumidity_2m[i]
-    let feelsLikeTemp = json.hourly.apparent_temperature[i]
-    let precipitationProbability = json.hourly.precipitation_probability[i]
-    let precipitationAmount = json.hourly.precipitation[i]
-    let weatherCode = json.hourly.weathercode[i]
+    let pm10 = airQualityJson.hourly.us_aqi_pm10[i]
+    let pm2_5 = airQualityJson.hourly.us_aqi_pm2_5[i]
+    let carbonMonoxide = airQualityJson.hourly.us_aqi_co[i]
+    let nitrogenDioxide = airQualityJson.hourly.us_aqi_no2[i]
+    let sulphurDioxide = airQualityJson.hourly.us_aqi_so2[i]
+    let ozone = airQualityJson.hourly.us_aqi_o3[i]
+    let dust = airQualityJson.hourly.dust[i]
+    let alderPollen = airQualityJson.hourly.alder_pollen[i]
+    let birchPollen = airQualityJson.hourly.birch_pollen[i]
+    let grassPollen = airQualityJson.hourly.grass_pollen[i]
+    let mugwortPollen = airQualityJson.hourly.mugwort_pollen[i]
+    let olivePollen = airQualityJson.hourly.olive_pollen[i]
+    let ragweedPollen = airQualityJson.hourly.ragweed_pollen[i]
+    let usAQI = airQualityJson.hourly.us_aqi[i]
+
+    let temperature = weatherJson.hourly.temperature_2m[i]
+    let humidity = weatherJson.hourly.relativehumidity_2m[i]
+    let feelsLikeTemp = weatherJson.hourly.apparent_temperature[i]
+    let precipitationProbability = weatherJson.hourly.precipitation_probability[i]
+    let precipitationAmount = weatherJson.hourly.precipitation[i]
+    let weatherCode = weatherJson.hourly.weathercode[i]
 
     openMeteoForecast[timeHour] = {
       temperature,
@@ -33,15 +50,61 @@ function createOpenMeteoFiveDayObject(json) {
       feelsLikeTemp,
       precipitationProbability,
       precipitationAmount,
-      weatherCode
+      weatherCode,
+      pm10,
+      pm2_5,
+      carbonMonoxide,
+      nitrogenDioxide,
+      sulphurDioxide,
+      ozone,
+      dust,
+      alderPollen,
+      birchPollen,
+      grassPollen,
+      mugwortPollen,
+      olivePollen,
+      ragweedPollen,
+      usAQI
     }
+  }
+
+  for (let i = 0; i < 7; i++) {
+    let day = weatherJson.daily.time[i]
+
+    let weatherCode = weatherJson.daily.weathercode[i]
+    let maxTemp = weatherJson.daily.temperature_2m_max[i]
+    let minTemp = weatherJson.daily.temperature_2m_min[i]
+    let feelsLikeMaxTemp = weatherJson.daily.apparent_temperature_max[i]
+    let feelsLikeMinTemp = weatherJson.daily.apparent_temperature_min[i]
+    let sunriseTime = weatherJson.daily.sunrise[i]
+    let sunsetTime = weatherJson.daily.sunset[i]
+    let precipitationSum = weatherJson.daily.precipitation_sum[i]
+    let rainSum = weatherJson.daily.rain_sum[i]
+    let numberOfHoursOfPrecipitation = weatherJson.daily.precipitation_hours[i]
+
+    openMeteoForecast.daily[day] = {
+      weatherCode,
+      maxTemp,
+      minTemp,
+      feelsLikeMaxTemp,
+      feelsLikeMinTemp,
+      sunriseTime,
+      sunsetTime,
+      precipitationSum,
+      rainSum,
+      numberOfHoursOfPrecipitation
+    }
+
+  }
+
+  openMeteoForecast.current = {
+    currentTemp: weatherJson.current_weather.temperature,
+    weatherCode: weatherJson.current_weather.weathercode,
+    windSpeed: weatherJson.current_weather.windspeed
   }
 
   return openMeteoForecast
 }
-
-// console.log(sampleWeatherDataJson.sampleWeatherDataJson.hourly.time.length)
-// console.log(Object.keys(openMeteoFiveDayObject(sampleWeatherDataJson)).length)
 
 // weatherCheck("29.76328",'-95.36327')
 
