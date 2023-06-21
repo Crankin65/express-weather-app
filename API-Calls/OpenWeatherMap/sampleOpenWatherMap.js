@@ -1,4 +1,4 @@
-const sampleJson = {
+const sampleOpenWeatherMapJson = {
 	"cod": "200",
 	"message": 0,
 	"cnt": 40,
@@ -1543,5 +1543,7 @@ const sampleJson = {
 	}
 }
 
-module.exports = sampleJson
+module.exports = {
+	sampleOpenWeatherMapJson: sampleOpenWeatherMapJson
+}
 

@@ -23,10 +23,12 @@ describe('OpenMeteoForecastObject', () => {
 	let randomDateTime = "2023-06-26T06:00"
 
 	test('Weather Object has expected properties', () => {
-		expect(createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson)).toHaveProperty(initialDateTime);
-		expect(Object.keys(createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson)).length).toBe(170);
-		expect((createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson))[randomDateTime]).toHaveProperty('temperature');
-		expect((createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson))[randomDateTime]['feelsLikeTemp']).toBeGreaterThanOrEqual(50);
+		expect(createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson).hourly[0].timeHour).toBe(initialDateTime);
+		expect(Object.keys(createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson)).length).toBe(3);
+		expect((createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson)).hourly.length).toBe(168);
+
+		expect((createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson)).hourly[65]).toHaveProperty('temperature');
+		expect((createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson)).hourly[102]['feelsLikeTemp']).toBeGreaterThanOrEqual(50);
 
 	});
 

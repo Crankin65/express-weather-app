@@ -16,56 +16,38 @@ async function weatherCheckOpenMeteo(latitude,longitude){
 function createOpenMeteoFiveDayObject(weatherJson, airQualityJson) {
   let openMeteoForecast = {
     'daily':{},
-    'current':{}
+    'current':{},
+    'hourly':[]
   }
 
   for (let i = 0; i < weatherJson.hourly.time.length; i+=1 ) {
-    let timeHour = weatherJson.hourly.time[i]
 
-    let pm10 = airQualityJson.hourly.us_aqi_pm10[i]
-    let pm2_5 = airQualityJson.hourly.us_aqi_pm2_5[i]
-    let carbonMonoxide = airQualityJson.hourly.us_aqi_co[i]
-    let nitrogenDioxide = airQualityJson.hourly.us_aqi_no2[i]
-    let sulphurDioxide = airQualityJson.hourly.us_aqi_so2[i]
-    let ozone = airQualityJson.hourly.us_aqi_o3[i]
-    let dust = airQualityJson.hourly.dust[i]
-    let alderPollen = airQualityJson.hourly.alder_pollen[i]
-    let birchPollen = airQualityJson.hourly.birch_pollen[i]
-    let grassPollen = airQualityJson.hourly.grass_pollen[i]
-    let mugwortPollen = airQualityJson.hourly.mugwort_pollen[i]
-    let olivePollen = airQualityJson.hourly.olive_pollen[i]
-    let ragweedPollen = airQualityJson.hourly.ragweed_pollen[i]
-    let usAQI = airQualityJson.hourly.us_aqi[i]
 
-    let temperature = weatherJson.hourly.temperature_2m[i]
-    let humidity = weatherJson.hourly.relativehumidity_2m[i]
-    let feelsLikeTemp = weatherJson.hourly.apparent_temperature[i]
-    let precipitationProbability = weatherJson.hourly.precipitation_probability[i]
-    let precipitationAmount = weatherJson.hourly.precipitation[i]
-    let weatherCode = weatherJson.hourly.weathercode[i]
+    openMeteoForecast.hourly.push({
+      timeHour: weatherJson.hourly.time[i],
+      temperature: weatherJson.hourly.temperature_2m[i],
+      humidity: weatherJson.hourly.relativehumidity_2m[i],
+      feelsLikeTemp: weatherJson.hourly.apparent_temperature[i],
+      precipitationProbability: weatherJson.hourly.precipitation_probability[i],
+      precipitationAmount: weatherJson.hourly.precipitation[i],
+      weatherCode: weatherJson.hourly.weathercode[i],
+      pm10: airQualityJson.hourly.us_aqi_pm10[i],
+      pm2_5: airQualityJson.hourly.us_aqi_pm2_5[i],
+      carbonMonoxide: airQualityJson.hourly.us_aqi_co[i],
+      nitrogenDioxide: airQualityJson.hourly.us_aqi_no2[i],
+      sulphurDioxide: airQualityJson.hourly.us_aqi_so2[i],
+      ozone: airQualityJson.hourly.us_aqi_o3[i],
+      dust: airQualityJson.hourly.dust[i],
+      alderPollen: airQualityJson.hourly.alder_pollen[i],
+      birchPollen: airQualityJson.hourly.birch_pollen[i],
+      grassPollen: airQualityJson.hourly.grass_pollen[i],
+      mugwortPollen: airQualityJson.hourly.mugwort_pollen[i],
+      olive_pollen: airQualityJson.hourly.olive_pollen[i],
+      ragweed_pollen: airQualityJson.hourly.ragweed_pollen[i],
+      usAQI: airQualityJson.hourly.us_aqi[i]
+      }
+    )
 
-    openMeteoForecast[timeHour] = {
-      temperature,
-      humidity,
-      feelsLikeTemp,
-      precipitationProbability,
-      precipitationAmount,
-      weatherCode,
-      pm10,
-      pm2_5,
-      carbonMonoxide,
-      nitrogenDioxide,
-      sulphurDioxide,
-      ozone,
-      dust,
-      alderPollen,
-      birchPollen,
-      grassPollen,
-      mugwortPollen,
-      olivePollen,
-      ragweedPollen,
-      usAQI
-    }
   }
 
   for (let i = 0; i < 7; i++) {
