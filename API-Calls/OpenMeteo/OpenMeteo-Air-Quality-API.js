@@ -9,7 +9,7 @@ async function airQualityCheckOpenMeteo(latitude,longitude){
 	return await formattedData;
 
 }
-
+//Brooklyn ("40.65", -73.95
 // weatherCheck("29.76328",'-95.36327')
 
 module.exports = {
