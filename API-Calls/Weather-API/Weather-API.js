@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 async function weatherAPICheck(city) {
-  const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${process.env.WEATHER_API_KEY}&q=${city}&days=1&aqi=no&alerts=no`, {mode: 'cors'})
+  const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${process.env.WEATHER_API_KEY}&q=${city}&days=1&aqi=yes&alerts=no`, {mode: 'cors'})
 	const weatherResponse = await response.json();
 	console.log('error here during weather api')
 	console.log(await weatherResponse);

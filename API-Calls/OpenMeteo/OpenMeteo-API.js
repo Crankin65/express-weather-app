@@ -1,4 +1,5 @@
 const sampleWeatherDataJson = require('./sampleOpenMeteoWeather')
+const data = sampleWeatherDataJson.sampleWeatherDataJson
 
 async function weatherCheckOpenMeteo(latitude,longitude){
   let date = new Date().toISOString().substring(0,10);
@@ -12,19 +13,19 @@ async function weatherCheckOpenMeteo(latitude,longitude){
 
 }
 
-function openMeteoFiveDayObject(json) {
+function createOpenMeteoFiveDayObject(json) {
   let openMeteoForecast = {}
 
-  for (let i = 0; i < json.sampleWeatherDataJson.hourly.time.length; i+=3 ) {
-    let timeHour = json.sampleWeatherDataJson.hourly.time[i]
+  for (let i = 0; i < json.hourly.time.length; i+=1 ) {
+    let timeHour = json.hourly.time[i]
     // openMeteoForecast = {timeHour}
 
-    let temperature = json.sampleWeatherDataJson.hourly.temperature_2m[i]
-    let humidity = json.sampleWeatherDataJson.hourly.relativehumidity_2m[i]
-    let feelsLikeTemp = json.sampleWeatherDataJson.hourly.apparent_temperature[i]
-    let precipitationProbability = json.sampleWeatherDataJson.hourly.precipitation_probability[i]
-    let precipitationAmount = json.sampleWeatherDataJson.hourly.precipitation[i]
-    let weatherCode = json.sampleWeatherDataJson.hourly.weathercode[i]
+    let temperature = json.hourly.temperature_2m[i]
+    let humidity = json.hourly.relativehumidity_2m[i]
+    let feelsLikeTemp = json.hourly.apparent_temperature[i]
+    let precipitationProbability = json.hourly.precipitation_probability[i]
+    let precipitationAmount = json.hourly.precipitation[i]
+    let weatherCode = json.hourly.weathercode[i]
 
     openMeteoForecast[timeHour] = {
       temperature,
@@ -35,17 +36,16 @@ function openMeteoFiveDayObject(json) {
       weatherCode
     }
   }
-  console.log(openMeteoForecast)
+
   return openMeteoForecast
 }
 
-openMeteoFiveDayObject(sampleWeatherDataJson)
-console.log("---------------")
 // console.log(sampleWeatherDataJson.sampleWeatherDataJson.hourly.time.length)
-console.log(Object.keys(openMeteoFiveDayObject(sampleWeatherDataJson)).length)
+// console.log(Object.keys(openMeteoFiveDayObject(sampleWeatherDataJson)).length)
 
 // weatherCheck("29.76328",'-95.36327')
 
 module.exports = {
-  weatherCheckOpenMeteo: weatherCheckOpenMeteo
+  weatherCheckOpenMeteo: weatherCheckOpenMeteo,
+  createOpenMeteoFiveDayObject: createOpenMeteoFiveDayObject
 }

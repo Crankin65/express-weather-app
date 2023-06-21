@@ -1,8 +1,8 @@
 const { body, validationResult } = require('express-validator')
 const { weatherCheckOpenMeteo } = require("../API-Calls/OpenMeteo/OpenMeteo-API");
 const { airQualityCheckOpenMeteo } = require('../API-Calls/OpenMeteo/OpenMeteo-Air-Quality-API');
-const { OpenWeatherMapWeatherCheck } = require('../API-Calls/OpenWeatherMap-API');
-const { weatherAPICheck } = require('../API-Calls/Weather-API')
+const { OpenWeatherMapWeatherCheck } = require('../API-Calls/OpenWeatherMap/OpenWeatherMap-API');
+const { weatherAPICheck } = require('../API-Calls/Weather-API/Weather-API')
 const { geoCheck, createGeoHash } = require('../API-Calls/getCoordinates')
 
 
