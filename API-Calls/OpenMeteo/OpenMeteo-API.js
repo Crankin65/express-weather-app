@@ -88,9 +88,21 @@ function createOpenMeteoFiveDayObject(weatherJson, airQualityJson) {
   return openMeteoForecast
 }
 
+function createFormattedDate(date) {
+  let dateArray = date.split('');
+
+  let dateObject = {
+    year: dateArray.slice(0,4).join(''),
+    month: dateArray.slice(6,8).join(''),
+    day: dateArray.slice(10,12).join(''),
+    hour: dateArray.slice(14,16).join('')
+  }
+  return dateObject
+}
 // weatherCheck("29.76328",'-95.36327')
 
 module.exports = {
   weatherCheckOpenMeteo: weatherCheckOpenMeteo,
-  createOpenMeteoFiveDayObject: createOpenMeteoFiveDayObject
+  createOpenMeteoFiveDayObject: createOpenMeteoFiveDayObject,
+  createFormattedDate: createFormattedDate
 }

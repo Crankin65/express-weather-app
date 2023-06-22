@@ -20,7 +20,6 @@ describe('Verify Sample Json', () => {
 
 describe('OpenMeteoForecastObject', () => {
 	let initialDateTime ="2023-06-20T00:00"
-	let randomDateTime = "2023-06-26T06:00"
 
 	test('Weather Object has expected properties', () => {
 		expect(createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson).hourly[0].timeHour).toBe(initialDateTime);
