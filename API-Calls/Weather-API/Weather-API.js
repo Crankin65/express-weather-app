@@ -19,8 +19,13 @@ async function weatherAPICheck(city) {
 
 }
 
+function createWeatherAPIObject (data) {
+	return data
+}
+
 // weatherCheck('Houston');
 
 module.exports = {
-	weatherAPICheck: weatherAPICheck
+	weatherAPICheck: weatherAPICheck,
+	createWeatherAPIObject:createWeatherAPIObject
 }
