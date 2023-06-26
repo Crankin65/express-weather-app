@@ -1591,8 +1591,9 @@ const sampleOpenWeatherMapCurrentJson= {
 }
 
 
+console.log(sampleOpenWeatherMapHourlyJson)
 
-module.export = {
+module.exports = {
 	sampleOpenWeatherMapJson: sampleOpenWeatherMapHourlyJson,
 	sampleOpenWeatherMapCurrentJson: sampleOpenWeatherMapCurrentJson
 }

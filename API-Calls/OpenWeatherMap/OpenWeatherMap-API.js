@@ -52,7 +52,6 @@ function createHourlyOpenWeatherMap (weatherJson) {
 
 	return hourlyForecast
 }
-
 function createCurrentOpenWeatherMap (weatherJson) {
 
 	let currentForecast = {
@@ -60,12 +59,14 @@ function createCurrentOpenWeatherMap (weatherJson) {
 		minTemp: kelvinToFaranheit(weatherJson.main.temp_min),
 		maxTemp: kelvinToFaranheit(weatherJson.main.temp_max),
 		humidity: weatherJson.main.humidity,
-		windSpeed: weatherJson.wind.speed
+		windSpeed: weatherJson.wind.speed,
+		dateTime: new Date((weatherJson.dt) * 1000),
+		sunrise: new Date( (weatherJson.sys.sunrise) * 1000),
+		sunset: new Date ((weatherJson.sys.sunset) * 1000)
 	}
 
 	return currentForecast
 }
-
 function kelvinToFaranheit (kelvinTemp){
 
 	let fahrenheit = (kelvinTemp- 273.15) * (9/5) + 32
