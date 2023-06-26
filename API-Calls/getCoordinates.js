@@ -7,8 +7,8 @@ async function geoCheck(city) {
 
 function createGeoHash(data) {
 	let hash =
-		{ Latitude:data.results[0].latitude,
-			Longitude:data.results[0].longitude
+		{ Latitude: data.results[0].latitude,
+			Longitude: data.results[0].longitude
 		}
 	return hash;
 }

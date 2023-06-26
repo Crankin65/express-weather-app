@@ -1,5 +1,5 @@
 const { body, validationResult } = require('express-validator')
-const { weatherCheckOpenMeteo } = require("../API-Calls/OpenMeteo/OpenMeteo-API");
+const { weatherCheckOpenMeteo, createOpenMeteoFiveDayObject } = require("../API-Calls/OpenMeteo/OpenMeteo-API");
 const { airQualityCheckOpenMeteo } = require('../API-Calls/OpenMeteo/OpenMeteo-Air-Quality-API');
 const { OpenWeatherMapWeatherCheck } = require('../API-Calls/OpenWeatherMap/OpenWeatherMap-API');
 const { weatherAPICheck } = require('../API-Calls/Weather-API/Weather-API')
@@ -16,8 +16,13 @@ exports.openMeteo = async(req,res) => {
 
 	const cityWeather = await weatherCheckOpenMeteo(`${coordinates.latitude}`,`${coordinates.longitude}`)
 	const cityAirQuality = await airQualityCheckOpenMeteo(`${coordinates.latitude}`,`${coordinates.longitude}`);
+	const openMeteoForecastObject = await createOpenMeteoFiveDayObject(cityWeather, cityAirQuality)
 
-	await res.json({weather:cityWeather, airQuality: cityAirQuality})
+	await res.json({
+		weeklyForecast: openMeteoForecastObject.weeklyForecast,
+		currentForecast: openMeteoForecastObject.currentForecast,
+		hourlyForecast: openMeteoForecastObject.hourlyForecast
+	})
 
 };
 
