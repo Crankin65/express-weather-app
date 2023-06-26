@@ -1,22 +1,6 @@
 const {sampleOpenWeatherMapJson, sampleOpenWeatherMapCurrentJson} = require('./sampleOpenWeatherMap')
 const {createOpenWeatherMapObject} = require('../OpenWeatherMap/OpenWeatherMap-API');
 
-// // Object Definition
-// Json = {
-// 	current: {
-// 		temp,
-// 		wind,
-// 		humidity
-// 	},
-// 	hourlyForecast:
-// 	[ {
-// 			day,
-// 			hour,
-// 			temp
-// 		}]
-// 	],
-// }
-
 describe('Verify Sample Json', () => {
 
 	test('Weather Json is valid', () => {

@@ -4,17 +4,6 @@ async function openWeatherCheck(latitude,longitude) {
 	const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${process.env.OPEN_WEATHER_API_KEY}&units=imperial`);
 	const forecastResponse = await response.json();
 
-	// const maxTemp = await weatherResponse.main.temp_max
-	// const minTemp = await weatherResponse.main.temp_min
-	//
-	//
-	// const weatherData = {
-	// 	maxTemp: maxTemp,
-	// 	minTemp: minTemp,
-	// 	avgTemp: await ((maxTemp + minTemp) / 2 ),
-	// 	condition: await weatherResponse.weather[0].description
-	// }
-
 	return forecastResponse
 
 }
@@ -26,11 +15,18 @@ async function openWeatherMapCurrentCheck(latitude, longitude) {
 	return weatherResponse;
 }
 
-function createOpenWeatherMapObject(weatherJson) {
+function createOpenWeatherMapObject(weatherJson,currentWeatherJson) {
 	let openWeatherMapObject = {
-		hourly: []
+		hourlyForecast: createHourlyOpenWeatherMap(weatherJson),
+		currentForecast: createCurrentOpenWeatherMap(currentWeatherJson)
 	}
-// json.hourly[0].weatherInformation.year.
+
+	return openWeatherMapObject
+}
+
+function createHourlyOpenWeatherMap (weatherJson) {
+	let hourlyForecast = []
+
 	for (let i=0; i < weatherJson.list.length; i++) {
 		let weatherInformation = {}
 
@@ -51,11 +47,30 @@ function createOpenWeatherMapObject(weatherJson) {
 			weatherDescription: weatherJson.list[i].weather.description
 		}
 
-		openWeatherMapObject.hourly.push(weatherInformation);
-
+		hourlyForecast.push(weatherInformation);
 	}
 
-	return openWeatherMapObject
+	return hourlyForecast
+}
+
+function createCurrentOpenWeatherMap (weatherJson) {
+
+	let currentForecast = {
+		feels_like: kelvinToFaranheit(weatherJson.main.feels_like),
+		minTemp: kelvinToFaranheit(weatherJson.main.temp_min),
+		maxTemp: kelvinToFaranheit(weatherJson.main.temp_max),
+		humidity: weatherJson.main.humidity,
+		windSpeed: weatherJson.wind.speed
+	}
+
+	return currentForecast
+}
+
+function kelvinToFaranheit (kelvinTemp){
+
+	let fahrenheit = (kelvinTemp- 273.15) * (9/5) + 32
+	return fahrenheit
+
 }
 
 // weatherCheck("29.76328","-95.36327")

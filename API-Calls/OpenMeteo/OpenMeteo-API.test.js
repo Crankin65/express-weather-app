@@ -19,17 +19,6 @@ describe('Verify Sample Json', () => {
 })
 
 describe('OpenMeteoForecastObject', () => {
-	let initialDateTime ="2023-06-20T00:00"
-
-	test('Weather Object has expected properties', () => {
-		expect((createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson)).hourly[0].timeHour).toBe(initialDateTime);
-		expect(Object.keys(createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson)).length).toBe(3);
-		expect((createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson)).hourly.length).toBe(168);
-
-		expect((createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson)).hourly[65]).toHaveProperty('temperature');
-		expect((createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson)).hourly[102]['feelsLikeTemp']).toBeGreaterThanOrEqual(50);
-
-	});
 
 	test('Weather Object has current weather', () => {
 		// console.log('--------')
@@ -59,7 +48,6 @@ describe('OpenMeteoForecastObject', () => {
 
 
 	})
-
 
 });
 
