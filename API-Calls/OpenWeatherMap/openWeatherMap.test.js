@@ -1,5 +1,21 @@
-const {sampleOpenWeatherMapJson} = require('./sampleOpenWeatherMap')
+const {sampleOpenWeatherMapJson, sampleOpenWeatherMapCurrentJson} = require('./sampleOpenWeatherMap')
 const {createOpenWeatherMapObject} = require('../OpenWeatherMap/OpenWeatherMap-API');
+
+// // Object Definition
+// Json = {
+// 	current: {
+// 		temp,
+// 		wind,
+// 		humidity
+// 	},
+// 	hourlyForecast:
+// 	[ {
+// 			day,
+// 			hour,
+// 			temp
+// 		}]
+// 	],
+// }
 
 describe('Verify Sample Json', () => {
 
@@ -7,15 +23,30 @@ describe('Verify Sample Json', () => {
 		expect(sampleOpenWeatherMapJson['list'].length).toBe(40)
 		expect(sampleOpenWeatherMapJson.list[4]).toHaveProperty('main')
 		expect(sampleOpenWeatherMapJson.list[18].main.temp_min).toBeGreaterThanOrEqual(30)
-		expect(sampleOpenWeatherMapJson.list[1].weather[0].main).toBe('Clouds')	})
-})
+		expect(sampleOpenWeatherMapJson.list[1].weather[0].main).toBe('Clouds')
+	})
+
+	test('Current Weather JSON is Valid', () => {
+		expect(sampleOpenWeatherMapCurrentJson.weather.main).toBe("Clouds")
+		expect(sampleOpenWeatherMapCurrentJson.main.feels_like).toBe(308.88)
+	})
+}) 
 
 describe('OpenWeatherMapObject', () => {
-	test('Check properties of OpenWeatherMap',() => {
-		expect(createOpenWeatherMapObject(sampleOpenWeatherMapJson).hourly[0]).toHaveProperty('month')
-		expect(createOpenWeatherMapObject(sampleOpenWeatherMapJson).hourly[32].year).toBe('2023')
-		expect(createOpenWeatherMapObject(sampleOpenWeatherMapJson).hourly[24]).toHaveProperty('humidity')
-		expect(createOpenWeatherMapObject(sampleOpenWeatherMapJson).hourly[7].temperature).toBeGreaterThanOrEqual(50);
+	test('Check properties of Forecast OpenWeatherMap',() => {
+		expect(createOpenWeatherMapObject(sampleOpenWeatherMapJson)['hourlyForecast'].length).toBe(40)
+
+		expect(createOpenWeatherMapObject(sampleOpenWeatherMapJson)['hourlyForecast'][5]).toHaveProperty('feelsLike')
+		expect(createOpenWeatherMapObject(sampleOpenWeatherMapJson)['hourlyForecast'][24].month).toBe('June')
+		expect(createOpenWeatherMapObject(sampleOpenWeatherMapJson)['hourlyForecast'][36]['feelsLike']).toBeGreaterThanOrEqual(50);
+
+	})
+
+	test('Check properties of Current OpenWeatherMap',() => {
+		expect(createOpenWeatherMapObject(sampleOpenWeatherMapJson)['currentForecast'].length).toBe(40)
+
+		expect(createOpenWeatherMapObject(sampleOpenWeatherMapJson)['currentForecast']).toHaveProperty('sunrise')
+		expect(createOpenWeatherMapObject(sampleOpenWeatherMapJson)['currentForecast']['mintemp']).toBeGreaterThanOrEqual(20);
 
 	})
 })

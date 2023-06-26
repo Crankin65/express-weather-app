@@ -1,4 +1,4 @@
-const sampleOpenWeatherMapJson = {
+const sampleOpenWeatherMapHourlyJson = {
 	"cod": "200",
 	"message": 0,
 	"cnt": 40,
@@ -1543,7 +1543,57 @@ const sampleOpenWeatherMapJson = {
 	}
 }
 
-module.exports = {
-	sampleOpenWeatherMapJson: sampleOpenWeatherMapJson
+const sampleOpenWeatherMapCurrentJson= {
+	"coord": {
+		"lon": -95.3633,
+		"lat": 29.7633
+	},
+	"weather": [
+		{
+			"id": 801,
+			"main": "Clouds",
+			"description": "few clouds",
+			"icon": "02d"
+		}
+	],
+	"base": "stations",
+	"main": {
+		"temp": 309.18,
+		"feels_like": 308.88,
+		"temp_min": 306.98,
+		"temp_max": 311.01,
+		"pressure": 1009,
+		"humidity": 28,
+		"sea_level": 1009,
+		"grnd_level": 1008
+	},
+	"visibility": 10000,
+	"wind": {
+		"speed": 0.98,
+		"deg": 282,
+		"gust": 1.9
+	},
+	"clouds": {
+		"all": 19
+	},
+	"dt": 1687460424,
+	"sys": {
+		"type": 2,
+		"id": 2005912,
+		"country": "US",
+		"sunrise": 1687432899,
+		"sunset": 1687483507
+	},
+	"timezone": -18000,
+	"id": 4699066,
+	"name": "Houston",
+	"cod": 200
+}
+
+
+
+module.export = {
+	sampleOpenWeatherMapJson: sampleOpenWeatherMapHourlyJson,
+	sampleOpenWeatherMapCurrentJson: sampleOpenWeatherMapCurrentJson
 }
 
