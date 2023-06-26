@@ -33,5 +33,3 @@ describe('OpenWeatherMapObject', () => {
 
 	})
 })
-// json.list[0].date = datetime
-// json.list[0].weather = datetime
