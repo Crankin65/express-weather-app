@@ -4,19 +4,18 @@ require("dotenv").config();
 async function weatherAPICheck(city) {
   const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${process.env.WEATHER_API_KEY}&q=${city}&days=1&aqi=yes&alerts=no`, {mode: 'cors'})
 	const weatherResponse = await response.json();
-	console.log('error here during weather api')
-	console.log(await weatherResponse);
-	const weatherData = {
-		maxTemp: await weatherResponse.forecast.forecastday[0].day.maxtemp_f,
-		minTemp: await weatherResponse.forecast.forecastday[0].day.mintemp_f,
-		avgTemp: await weatherResponse.forecast.forecastday[0].day.avgtemp_f,
-		condition: await weatherResponse.forecast.forecastday[0].day.condition.text
 
-	}
+	// const weatherData = {
+	// 	maxTemp: await weatherResponse.forecast.forecastday[0].day.maxtemp_f,
+	// 	minTemp: await weatherResponse.forecast.forecastday[0].day.mintemp_f,
+	// 	avgTemp: await weatherResponse.forecast.forecastday[0].day.avgtemp_f,
+	// 	condition: await weatherResponse.forecast.forecastday[0].day.condition.text
+	//
+	// }
+	//
+	// return weatherData;
 
-	return weatherData;
-	// console.log(await `The high in ${city} is ${weatherData.maxTemp}, the low is ${weatherData.minTemp}, the average is
-	// ${weatherData.avgTemp} and the current weather is ${weatherData.condition}`);
+	return weatherResponse
 
 }
 
@@ -77,9 +76,9 @@ function createHourlyWeatherAPIJson(weatherJson) {
 
 	for (let i = 0; i < 3; i ++) {
 
-		for (let j = 0; j < weatherJson.forecast.forecastday[i].hour.length; j++){
+		for (let j = 0; j < weatherJson.forecast.forecastday[0].hour.length; j++){
 			let weatherInformation = {}
-			let weatherJsonInformation = weatherJson.forecast.forecastday[i].hour[j]
+			let weatherJsonInformation = weatherJson.forecast.forecastday[0].hour[j]
 
 			weatherInformation = {
 				year: weatherJsonInformation.time.slice(0,4),

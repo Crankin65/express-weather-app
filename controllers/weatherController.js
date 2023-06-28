@@ -1,8 +1,8 @@
 const { body, validationResult } = require('express-validator')
 const { weatherCheckOpenMeteo, createOpenMeteoFiveDayObject } = require("../API-Calls/OpenMeteo/OpenMeteo-API");
 const { airQualityCheckOpenMeteo } = require('../API-Calls/OpenMeteo/OpenMeteo-Air-Quality-API');
-const { OpenWeatherMapWeatherCheck } = require('../API-Calls/OpenWeatherMap/OpenWeatherMap-API');
-const { weatherAPICheck } = require('../API-Calls/Weather-API/Weather-API')
+const { openWeatherMapHourlyCheck, openWeatherMapCurrentCheck,createOpenWeatherMapObject } = require('../API-Calls/OpenWeatherMap/OpenWeatherMap-API');
+const { weatherAPICheck, createWeatherAPIObject } = require('../API-Calls/Weather-API/Weather-API')
 const { geoCheck, createGeoHash } = require('../API-Calls/getCoordinates')
 
 
@@ -24,6 +24,12 @@ exports.openMeteo = async(req,res) => {
 		hourlyForecast: openMeteoForecastObject.hourlyForecast
 	})
 
+	console.log(await res.json({
+		weeklyForecast: openMeteoForecastObject.weeklyForecast,
+		currentForecast: openMeteoForecastObject.currentForecast,
+		hourlyForecast: openMeteoForecastObject.hourlyForecast
+	}))
+
 };
 
 exports.openWeather = async(req,res) => {
@@ -32,18 +38,28 @@ exports.openWeather = async(req,res) => {
 		longitude: req.params['longitude']
 	}
 
-	const weather = await OpenWeatherMapWeatherCheck(`${coordinates.latitude}`,`${coordinates.longitude}`)
+	const hourlyWeatherRaw = await openWeatherMapHourlyCheck(`${coordinates.latitude}`,`${coordinates.longitude}`)
+	const currentWeatherRaw = await openWeatherMapCurrentCheck(`${coordinates.latitude}`,`${coordinates.longitude}`)
 
-	await res.json({weather:weather})
+	const weatherObject = await createOpenWeatherMapObject(hourlyWeatherRaw, currentWeatherRaw)
+
+	await res.json({
+		hourlyWeather: weatherObject.hourlyForecast,
+		currentWeather: weatherObject.currentForecast
+	})
 
 };
 
 exports.weatherAPI = async (req,res) => {
 	const city = req.params['city'];
-
 	const weather = await weatherAPICheck(city);
+	const weatherObject = await createWeatherAPIObject(weather)
 
-	await res.json({weather:weather})
+	await res.json({
+		currentForecast: weatherObject.currentForecast,
+		dailyForecast: weatherObject.dailyForecast,
+		hourlyForecast: weatherObject.hourlyForecast
+	})
 
 }
 

@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-async function openWeatherCheck(latitude,longitude) {
+async function openWeatherMapHourlyCheck(latitude,longitude) {
 	const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${process.env.OPEN_WEATHER_API_KEY}&units=imperial`);
 	const forecastResponse = await response.json();
 
@@ -54,10 +54,17 @@ function createHourlyOpenWeatherMap (weatherJson) {
 }
 function createCurrentOpenWeatherMap (weatherJson) {
 
+	// new Date((weatherJson.dt) * 1000)
+
+	function localTime(date) {
+		return date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+	}
+
+
 	let currentForecast = {
-		feels_like: kelvinToFaranheit(weatherJson.main.feels_like),
-		minTemp: kelvinToFaranheit(weatherJson.main.temp_min),
-		maxTemp: kelvinToFaranheit(weatherJson.main.temp_max),
+		feels_like: weatherJson.main.feels_like,
+		minTemp: weatherJson.main.temp_min,
+		maxTemp: weatherJson.main.temp_max,
 		humidity: weatherJson.main.humidity,
 		windSpeed: weatherJson.wind.speed,
 		dateTime: new Date((weatherJson.dt) * 1000),
@@ -77,6 +84,7 @@ function kelvinToFaranheit (kelvinTemp){
 // weatherCheck("29.76328","-95.36327")
 
 module.exports = {
-	OpenWeatherMapWeatherCheck: openWeatherCheck,
-	createOpenWeatherMapObject: createOpenWeatherMapObject
+	openWeatherMapHourlyCheck: openWeatherMapHourlyCheck,
+	openWeatherMapCurrentCheck: openWeatherMapCurrentCheck,
+	createOpenWeatherMapObject: createOpenWeatherMapObject,
 }
