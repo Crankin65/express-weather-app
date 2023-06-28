@@ -80,13 +80,10 @@ exports.getAllWeather = async (req,res) => {
 
 	//Open Meteo
 	const openMeteoWeatherRaw = await weatherCheckOpenMeteo(`${coordinatesHash.latitude}`,`${coordinatesHash.longitude}`)
-	console.log('----')
-	console.log( await coordinatesHash.latitude)
-	console.log( await coordinatesHash.longitude)
 	const openMeteoAirQualityRaw = await airQualityCheckOpenMeteo(`${coordinatesHash.latitude}`,`${coordinatesHash.longitude}`);
 	const openMeteoForecastObject = await createOpenMeteoFiveDayObject(openMeteoWeatherRaw, openMeteoAirQualityRaw)
 
-	console.log( await openMeteoWeatherRaw)
+
 	//Open Weather Map
 	const hourlyOpenWeatherMapRaw = await openWeatherMapHourlyCheck(`${coordinatesHash.latitude}`,`${coordinatesHash.longitude}`)
 	const currentOpenWeatherMapRaw = await openWeatherMapCurrentCheck(`${coordinatesHash.latitude}`,`${coordinatesHash.longitude}`)
