@@ -24,36 +24,45 @@ function createOpenMeteoFiveDayObject(weatherJson, airQualityJson) {
 }
 
 function createHourlyOpenMeteoObject(weatherJson, airQualityJson) {
-  let hourlyForecast = []
+  let hourlyWeather = []
+  let hourlyAQI = []
 
 
   for (let i = 0; i < weatherJson.hourly.time.length; i+=1 ) {
     let weatherCode = weatherJson.hourly.weathercode[i];
 
-    hourlyForecast.push({
+    hourlyWeather.push({
       timeHour: weatherJson.hourly.time[i],
       temperature: weatherJson.hourly.temperature_2m[i],
       humidity: weatherJson.hourly.relativehumidity_2m[i],
       feelsLike: weatherJson.hourly.apparent_temperature[i],
       precipitationProbability: weatherJson.hourly.precipitation_probability[i],
       precipitationAmount: weatherJson.hourly.precipitation[i],
-      weatherCode: formatWeatherCode(weatherCode),
+      weather: formatWeatherCode(weatherCode)})
 
-      us_aqi_pm10: airQualityJson.hourly.us_aqi_pm10[i],
-      us_aqi_pm2_5: airQualityJson.hourly.us_aqi_pm2_5[i],
-      us_aqi_co: airQualityJson.hourly.us_aqi_co[i],
-      us_aqi_no2: airQualityJson.hourly.us_aqi_no2[i],
-      us_aqi_so2: airQualityJson.hourly.us_aqi_so2[i],
-      us_aqi_o3: airQualityJson.hourly.us_aqi_o3[i],
-      us_aqi_dust: airQualityJson.hourly.dust[i],
+    hourlyAQI.push({
+      timeHour: weatherJson.hourly.time[i],
+      usAqiPm10: airQualityJson.hourly.us_aqi_pm10[i],
+      usAqiPm2_5: airQualityJson.hourly.us_aqi_pm2_5[i],
+      usAqiCo: airQualityJson.hourly.us_aqi_co[i],
+      usAqiNo2: airQualityJson.hourly.us_aqi_no2[i],
+      usAqiSo2: airQualityJson.hourly.us_aqi_so2[i],
+      usAqiO3: airQualityJson.hourly.us_aqi_o3[i],
+      usAqiDust: airQualityJson.hourly.dust[i],
       // alderPollen: airQualityJson.hourly.alder_pollen[i],
       // birchPollen: airQualityJson.hourly.birch_pollen[i],
       // grassPollen: airQualityJson.hourly.grass_pollen[i],
       // mugwortPollen: airQualityJson.hourly.mugwort_pollen[i],
       // olive_pollen: airQualityJson.hourly.olive_pollen[i],
       // ragweed_pollen: airQualityJson.hourly.ragweed_pollen[i],
-      usAQI: airQualityJson.hourly.us_aqi[i]
+      usAqi: airQualityJson.hourly.us_aqi[i]
     })
+  }
+
+  let hourlyForecast = {}
+  hourlyForecast = {
+    hourlyWeather: hourlyWeather,
+    hourlyAQI: hourlyAQI
   }
 
   return hourlyForecast
