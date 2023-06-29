@@ -62,14 +62,16 @@ function createCurrentOpenWeatherMap (weatherJson) {
 
 
 	let currentForecast = {
-		feels_like: weatherJson.main.feels_like,
+		feelsLike: weatherJson.main.feels_like,
 		minTemp: weatherJson.main.temp_min,
 		maxTemp: weatherJson.main.temp_max,
 		humidity: weatherJson.main.humidity,
 		windSpeed: weatherJson.wind.speed,
 		dateTime: new Date((weatherJson.dt) * 1000),
 		sunrise: new Date( (weatherJson.sys.sunrise) * 1000),
-		sunset: new Date ((weatherJson.sys.sunset) * 1000)
+		sunset: new Date ((weatherJson.sys.sunset) * 1000),
+		latitude: weatherJson.coord.lat,
+		longitude: weatherJson.coord.lon
 	}
 
 	return currentForecast

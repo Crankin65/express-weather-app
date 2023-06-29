@@ -26,7 +26,9 @@ function createOpenMeteoFiveDayObject(weatherJson, airQualityJson) {
 function createHourlyOpenMeteoObject(weatherJson, airQualityJson) {
   let hourlyForecast = []
 
+
   for (let i = 0; i < weatherJson.hourly.time.length; i+=1 ) {
+    let weatherCode = weatherJson.hourly.weathercode[i];
 
     hourlyForecast.push({
       timeHour: weatherJson.hourly.time[i],
@@ -35,7 +37,7 @@ function createHourlyOpenMeteoObject(weatherJson, airQualityJson) {
       feelsLike: weatherJson.hourly.apparent_temperature[i],
       precipitationProbability: weatherJson.hourly.precipitation_probability[i],
       precipitationAmount: weatherJson.hourly.precipitation[i],
-      weatherCode: weatherJson.hourly.weathercode[i],
+      weatherCode: formatWeatherCode(weatherCode),
 
       us_aqi_pm10: airQualityJson.hourly.us_aqi_pm10[i],
       us_aqi_pm2_5: airQualityJson.hourly.us_aqi_pm2_5[i],
@@ -44,12 +46,12 @@ function createHourlyOpenMeteoObject(weatherJson, airQualityJson) {
       us_aqi_so2: airQualityJson.hourly.us_aqi_so2[i],
       us_aqi_o3: airQualityJson.hourly.us_aqi_o3[i],
       us_aqi_dust: airQualityJson.hourly.dust[i],
-      alderPollen: airQualityJson.hourly.alder_pollen[i],
-      birchPollen: airQualityJson.hourly.birch_pollen[i],
-      grassPollen: airQualityJson.hourly.grass_pollen[i],
-      mugwortPollen: airQualityJson.hourly.mugwort_pollen[i],
-      olive_pollen: airQualityJson.hourly.olive_pollen[i],
-      ragweed_pollen: airQualityJson.hourly.ragweed_pollen[i],
+      // alderPollen: airQualityJson.hourly.alder_pollen[i],
+      // birchPollen: airQualityJson.hourly.birch_pollen[i],
+      // grassPollen: airQualityJson.hourly.grass_pollen[i],
+      // mugwortPollen: airQualityJson.hourly.mugwort_pollen[i],
+      // olive_pollen: airQualityJson.hourly.olive_pollen[i],
+      // ragweed_pollen: airQualityJson.hourly.ragweed_pollen[i],
       usAQI: airQualityJson.hourly.us_aqi[i]
     })
   }
@@ -61,7 +63,7 @@ function createWeeklyOpenMeteoObject(weatherJson){
   for (let i = 0; i < 7; i++) {
 
     weeklyForecast.push ({
-      weatherCode:weatherJson.daily.weathercode[i],
+      weatherCode: formatWeatherCode(weatherJson.daily.weathercode[i]),
       maxTemp: weatherJson.daily.temperature_2m_max[i],
       minTemp: weatherJson.daily.temperature_2m_max[i],
       feelsLikeMaxTemp: weatherJson.daily.apparent_temperature_max[i],
@@ -78,8 +80,33 @@ function createWeeklyOpenMeteoObject(weatherJson){
 }
 function createCurrentOpenMeteoObject(weatherJson){
   let weatherCode = weatherJson.current_weather.weathercode
-  let weather;
 
+  let currentForecast = {
+    currentTemp: weatherJson.current_weather.temperature,
+    weather: formatWeatherCode(weatherCode),
+    windSpeed: weatherJson.current_weather.windspeed,
+    latitude: weatherJson.latitude,
+    longitude: weatherJson.longitude
+  }
+
+  return currentForecast
+}
+
+function createFormattedDate(date) {
+  let dateArray = date.split('');
+
+  let dateObject = {
+    year: dateArray.slice(0,4).join(''),
+    month: dateArray.slice(6,8).join(''),
+    day: dateArray.slice(10,12).join(''),
+    hour: dateArray.slice(14,16).join('')
+  }
+  return dateObject
+}
+// weatherCheck("29.76328",'-95.36327')
+
+function formatWeatherCode(weatherCode){
+  let weather;
 
   switch(weatherCode) {
     case 0:
@@ -180,27 +207,8 @@ function createCurrentOpenMeteoObject(weatherJson){
 
   }
 
-  let currentForecast = {
-    currentTemp: weatherJson.current_weather.temperature,
-    weather: weather,
-    windSpeed: weatherJson.current_weather.windspeed
-  }
-
-  return currentForecast
+  return weather
 }
-
-function createFormattedDate(date) {
-  let dateArray = date.split('');
-
-  let dateObject = {
-    year: dateArray.slice(0,4).join(''),
-    month: dateArray.slice(6,8).join(''),
-    day: dateArray.slice(10,12).join(''),
-    hour: dateArray.slice(14,16).join('')
-  }
-  return dateObject
-}
-// weatherCheck("29.76328",'-95.36327')
 
 module.exports = {
   weatherCheckOpenMeteo: weatherCheckOpenMeteo,

@@ -90,7 +90,7 @@ exports.getAllWeather = async (req,res) => {
 	const openWeatherMapObject = await createOpenWeatherMapObject(hourlyOpenWeatherMapRaw, currentOpenWeatherMapRaw)
 
 	//Weather API
-	const weatherAPIWeatherRaw = await weatherAPICheck(city);
+	const weatherAPIWeatherRaw = await weatherAPICheck(`${coordinatesHash.latitude}`,`${coordinatesHash.longitude}`);
 	const weatherAPIObject = await createWeatherAPIObject(weatherAPIWeatherRaw)
 
 	await res.json({
@@ -100,8 +100,8 @@ exports.getAllWeather = async (req,res) => {
 				hourlyForecast: openMeteoForecastObject.hourlyForecast
 			},
 		openWeatherMapForcast: {
-			hourlyWeather: openWeatherMapObject.hourlyForecast,
-			currentWeather: openWeatherMapObject.currentForecast
+			hourlyForecast: openWeatherMapObject.hourlyForecast,
+			currentForecast: openWeatherMapObject.currentForecast
 		},
 		weatherAPIForecast: {
 			currentForecast: weatherAPIObject.currentForecast,
