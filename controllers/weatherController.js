@@ -78,34 +78,41 @@ exports.getAllWeather = async (req,res) => {
 	const cityDetails = await geoCheck(city);
 	const coordinatesHash = await createGeoHash(cityDetails)
 
-	//Open Meteo
-	const openMeteoWeatherRaw = await weatherCheckOpenMeteo(`${coordinatesHash.latitude}`,`${coordinatesHash.longitude}`)
-	const openMeteoAirQualityRaw = await airQualityCheckOpenMeteo(`${coordinatesHash.latitude}`,`${coordinatesHash.longitude}`);
-	const openMeteoForecastObject = await createOpenMeteoFiveDayObject(openMeteoWeatherRaw, openMeteoAirQualityRaw)
+	if (coordinatesHash.latitude) {
+		//Open Meteo
+		const openMeteoWeatherRaw = await weatherCheckOpenMeteo(`${coordinatesHash.latitude}`, `${coordinatesHash.longitude}`)
+		const openMeteoAirQualityRaw = await airQualityCheckOpenMeteo(`${coordinatesHash.latitude}`, `${coordinatesHash.longitude}`);
+		const openMeteoForecastObject = await createOpenMeteoFiveDayObject(openMeteoWeatherRaw, openMeteoAirQualityRaw)
 
 
-	//Open Weather Map
-	const hourlyOpenWeatherMapRaw = await openWeatherMapHourlyCheck(`${coordinatesHash.latitude}`,`${coordinatesHash.longitude}`)
-	const currentOpenWeatherMapRaw = await openWeatherMapCurrentCheck(`${coordinatesHash.latitude}`,`${coordinatesHash.longitude}`)
-	const openWeatherMapObject = await createOpenWeatherMapObject(hourlyOpenWeatherMapRaw, currentOpenWeatherMapRaw)
+		//Open Weather Map
+		const hourlyOpenWeatherMapRaw = await openWeatherMapHourlyCheck(`${coordinatesHash.latitude}`, `${coordinatesHash.longitude}`)
+		const currentOpenWeatherMapRaw = await openWeatherMapCurrentCheck(`${coordinatesHash.latitude}`, `${coordinatesHash.longitude}`)
+		const openWeatherMapObject = await createOpenWeatherMapObject(hourlyOpenWeatherMapRaw, currentOpenWeatherMapRaw)
 
-	//Weather API
-	const weatherAPIWeatherRaw = await weatherAPICheck(`${coordinatesHash.latitude}`,`${coordinatesHash.longitude}`);
-	const weatherAPIObject = await createWeatherAPIObject(weatherAPIWeatherRaw)
+		//Weather API
+		const weatherAPIWeatherRaw = await weatherAPICheck(`${coordinatesHash.latitude}`, `${coordinatesHash.longitude}`);
+		const weatherAPIObject = await createWeatherAPIObject(weatherAPIWeatherRaw)
 
-	await res.json({
-		openMeteoForecast:{
+		await res.json({
+			openMeteoForecast: {
 				weeklyForecast: openMeteoForecastObject.weeklyForecast,
 				currentForecast: openMeteoForecastObject.currentForecast,
 				hourlyForecast: openMeteoForecastObject.hourlyForecast
 			},
-		openWeatherMapForcast: {
-			hourlyForecast: openWeatherMapObject.hourlyForecast,
-			currentForecast: openWeatherMapObject.currentForecast
-		},
-		weatherAPIForecast: {
-			currentForecast: weatherAPIObject.currentForecast,
-			dailyForecast: weatherAPIObject.dailyForecast,
-			hourlyForecast: weatherAPIObject.hourlyForecast
-		}})
+			openWeatherMapForcast: {
+				hourlyForecast: openWeatherMapObject.hourlyForecast,
+				currentForecast: openWeatherMapObject.currentForecast
+			},
+			weatherAPIForecast: {
+				currentForecast: weatherAPIObject.currentForecast,
+				dailyForecast: weatherAPIObject.dailyForecast,
+				hourlyForecast: weatherAPIObject.hourlyForecast
+			}
+		})
+	} else if (!coordinatesHash.latitude) {
+		await res.json({
+			forecast: 'error'
+		})
+	}
 }
