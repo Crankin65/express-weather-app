@@ -4,8 +4,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const indexRouter = require('././api/index');
+const usersRouter = require('././api/users');
 const expressAsyncHandler = require("express-async-handler");
 const weatherCheck = require("./API-Calls/OpenMeteo/OpenMeteo-API");
 
