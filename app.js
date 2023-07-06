@@ -15,7 +15,6 @@ const weatherCheck = require("./API-Calls/OpenMeteo/OpenMeteo-API");
 // }
 
 require("dotenv").config();
-console.log(process.env.OPEN_WEATHER_API_KEY)
 
 const app = express();
 const cors = require('cors')
