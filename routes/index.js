@@ -17,6 +17,4 @@ router.get('/get/weather/:city', weatherController.getAllWeather)
 
 
 
-
-
 module.exports = router;
