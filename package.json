@@ -6,7 +6,7 @@
     "node": "18.x"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node app.js",
     "vercel-build": "echo hello",
     "test": "jest"
   },
