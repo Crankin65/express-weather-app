@@ -2,7 +2,7 @@ const {sampleWeatherAPIJson} = require('./sampleWeatherAPI')
 require("dotenv").config();
 
 async function weatherAPICheck(latitude,longitude) {
-  const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${process.env.WEATHER_API_KEY}&q=${latitude},${longitude}&days=1&aqi=yes&alerts=no`, {mode: 'cors'})
+  const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${process.env.WEATHER_API_KEY}&q=${latitude},${longitude}&days=3&aqi=yes&alerts=no`, {mode: 'cors'})
 	const weatherResponse = await response.json();
 
 	return weatherResponse
@@ -66,24 +66,24 @@ function createDailyWeatherAPIJson(weatherJson) {
 function createHourlyWeatherAPIJson(weatherJson) {
 	let hourlyForecast = []
 
-	for (let i = 0; i < 3; i ++) {
+	function formatDateTime(date) {
+		return date.split('').splice(0,16).join('')
+	}
 
-		for (let j = 0; j < weatherJson.forecast.forecastday[0].hour.length; j++){
+	for (let i = 0; i < 3; i++) {
+
+		for (let j = 0; j < weatherJson.forecast.forecastday[i].hour.length; j++){
 			let weatherInformation = {}
-			let weatherJsonInformation = weatherJson.forecast.forecastday[0].hour[j]
+			let weatherJsonInformation = weatherJson.forecast.forecastday[i].hour[j]
+			console.log(i,j)
 
 			weatherInformation = {
-				year: weatherJsonInformation.time.slice(0,4),
-				month: weatherJsonInformation.time.slice(5,7),
-				day: weatherJsonInformation.time.slice(8,10),
-				hour: weatherJsonInformation.time.slice(11,13),
+				dateTime: formatDateTime(weatherJsonInformation.time),
 				condition: weatherJsonInformation.condition.text,
 				windSpeed: weatherJsonInformation.wind_mph,
 				humidity: weatherJsonInformation.humidity,
 				precipitationInches: weatherJsonInformation.precip_in,
 				feelsLike: weatherJsonInformation.feelslike_f,
-				willItRain: weatherJsonInformation.will_it_rain === 1,
-				willItSnow: weatherJsonInformation.will_it_snow === 1,
 				chanceOfRain: weatherJsonInformation.chance_of_rain,
 				chanceOfSnow: weatherJsonInformation.chance_of_snow
 			}

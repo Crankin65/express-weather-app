@@ -32,12 +32,12 @@ function createHourlyOpenWeatherMap (weatherJson) {
 
 		let dateTime = weatherJson.list[i].dt_txt
 		let weatherDetails =  weatherJson.list[i].main
+		function formatDateTime(date) {
+			return date.split('').splice(0,16).join('')
+		}
 
 		weatherInformation = {
-			year: dateTime.slice(0,4),
-			month: dateTime.slice(5,7),
-			day: dateTime.slice(8,10),
-			hour: dateTime.slice(11,13),
+			dateTime: formatDateTime(weatherJson.list[i].dt_txt),
 			temperature: weatherDetails.temp,
 			feelsLikeTemp: weatherDetails.feels_like,
 			minTemp: weatherDetails.temp_min,
