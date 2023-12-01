@@ -38,7 +38,6 @@ describe('OpenMeteoForecastObject', () => {
 	test('Weather Object has hourly weather', () => {
 		expect(createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson)).toHaveProperty('hourlyForecast');
 		expect(Object.keys(createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson)['hourlyForecast'][0]).length).toBe(21);
-		// 7 weather + aqi, pm2.5, pm10, no2, co, o3, so2, alder, birch, grass, mugwort, olive, ragweed, dust
 		expect(createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson)['hourlyForecast'][24]).toHaveProperty('feelsLike');
 		expect(createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson)['hourlyForecast'][100]).toHaveProperty('us_aqi_pm10');
 		expect(createOpenMeteoFiveDayObject(sampleWeatherDataJson, sampleAirQualityJson)['hourlyForecast'].length).toBe(168);
