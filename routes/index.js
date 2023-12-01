@@ -1,6 +1,6 @@
-const express = require('express');
+const app = require('express')();
 // const router = express.Router();
-const app = express();
+// const app = express();
 const weatherCheck = require("../API-Calls/OpenMeteo/OpenMeteo-API");
 
 
