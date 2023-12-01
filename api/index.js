@@ -1,53 +1,30 @@
-// import app from '../app'
-//
-// export default app
-
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-
-const indexRouter = require('../routes/index');
-
-require("dotenv").config();
-
-const app = express();
-const cors = require('cors')
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-app.use(logger('dev'));
-app.use(cors())
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-// app.use('/users', usersRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-	next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-	// set locals, only providing error in development
-	res.locals.message = err.message;
-	res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-	// render the error page
-	res.status(err.status || 500);
-	res.render('error');
-});
+const app = require('express')();
+// const router = express.Router();
+// const app = express();
+const weatherCheck = require("../API-Calls/OpenMeteo/OpenMeteo-API");
 
 
-app.listen(8000, () => {
-	console.log(`Server is running on port 8000.`);
-});
+// Controllers
+const weatherController = require('../controllers/weatherController')
+const asyncHandler = require("express-async-handler");
 
+app.get('/test', weatherController.test)
+
+app.get('/openmeteo/:latitude/:longitude', weatherController.openMeteo);
+app.get('/openweather/:latitude/:longitude', weatherController.openWeather);
+app.get('/weatherAPI/:city', weatherController.weatherAPI);
+app.get('/get/:city', weatherController.coordinates)
+app.get('/get/weather/:city', weatherController.getAllWeather)
+
+
+// router.get('/openmeteo/:latitude/:longitude', weatherController.openMeteo);
+// router.get('/openweather/:latitude/:longitude', weatherController.openWeather);
+// router.get('/weatherAPI/:city', weatherController.weatherAPI);
+// router.get('/get/:city', weatherController.coordinates)
+// router.get('/get/weather/:city', weatherController.getAllWeather)
+
+
+
+// module.exports = router;
 module.exports = app;
+
