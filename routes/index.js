@@ -8,6 +8,7 @@ const weatherCheck = require("../API-Calls/OpenMeteo/OpenMeteo-API");
 const weatherController = require('../controllers/weatherController')
 const asyncHandler = require("express-async-handler");
 
+app.get('/test', weatherController.test)
 
 app.get('/openmeteo/:latitude/:longitude', weatherController.openMeteo);
 app.get('/openweather/:latitude/:longitude', weatherController.openWeather);
