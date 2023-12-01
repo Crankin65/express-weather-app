@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -13,8 +15,6 @@ const weatherCheck = require("./API-Calls/OpenMeteo/OpenMeteo-API");
 // if (process.env.NODE_ENV !== "production") {
 //   require("dotenv").config();
 // }
-
-require("dotenv").config();
 
 const app = express();
 const cors = require('cors')
