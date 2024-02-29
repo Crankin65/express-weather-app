@@ -8,6 +8,12 @@ const { geoCheck, createGeoHash } = require('../API-Calls/getCoordinates')
 
 const asyncHandler = require('express-async-handler')
 
+
+exports.home = async(req,res) => {
+	await res.json({
+		home:'default'
+	})
+}
 exports.test = async(req,res) => {
 	await res.json({
 		test: 'error'
