@@ -4,6 +4,7 @@ async function openWeatherMapHourlyCheck(latitude,longitude) {
 	const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${process.env.OPEN_WEATHER_API_KEY}&units=imperial`);
 	const forecastResponse = await response.json();
 
+	console.log(await forecastResponse)
 	return forecastResponse
 
 }
@@ -12,6 +13,7 @@ async function openWeatherMapCurrentCheck(latitude, longitude) {
 	const response = await fetch (`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.OPEN_WEATHER_API_KEY}&units=imperial`);
 	const weatherResponse = await response.json();
 
+	console.log(await weatherResponse)
 	return weatherResponse;
 }
 

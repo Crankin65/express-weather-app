@@ -54,7 +54,7 @@ app.use(function(err, req, res, next) {
 //   console.log(`Server is running on port 8000.`);
 // });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Our app is running on port ${ PORT }`);
 });
