@@ -1,4 +1,4 @@
-# Express-Weather-API
+# what-not-to-where-server
 
 I created this API using three different open weather APIs.
 From these three sources, given a param of a city, I pass a latitude and longitude coordinate to the APIs and
